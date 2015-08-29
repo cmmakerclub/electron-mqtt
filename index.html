@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Electron boilerplate</title>
+		<link rel="stylesheet" href="index.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<header>
+				<h1>Electron boilerplate</h1>
+			</header>
+			<section class="main"></section>
+			<footer></footer>
+		</div>
+	</body>
+  <script>
+    var mainSection = document.getElementsByClassName("main")[0];
+  	var opts = { 
+  		'username': 'free:test',
+  		'password': 'test'
+  	}
+
+  	var mqtt    = require('mqtt');
+	var client  = mqtt.connect('mqtt://rabbit.cmmc.ninja', opts);
+
+	client.on('connect', function () {
+	  client.subscribe('#');
+	});
+	 
+	client.on('message', function (topic, message) {
+		mainSection.innerHTML = message.toString();
+	  // message is Buffer 
+	  // console.log(message.toString());
+	});	
+  </script>
+</html>
